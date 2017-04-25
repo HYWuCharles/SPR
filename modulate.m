@@ -1,8 +1,8 @@
 function data_transmit = modulate(data, mode)
 %QPSK调制不好
-fb = 1;%基带信号频率
-fs = 100;%基带采样频率
-fc = 4;%载波频率
+fb = 1;%基带信号频率 1MHz
+fs = 100;%基带采样频率 100MHz
+fc = 4;%载波频率 4MHz
 
 switch mode
     case 'FSK'
