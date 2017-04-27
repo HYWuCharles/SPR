@@ -88,9 +88,9 @@ switch mode
         end
         %plot(1:1:length(I_),I_);
         %----------基带脉冲成形----------%
-        b = firrcos(16,fb/2, 2*0.5*fb/2, fs);
-        I_filtered = filter(b, 1, I_);%filtered I
-        Q_filtered = filter(b, 1, Q_);%filtered Q
+        %b = firrcos(16,fb/2, 2*0.5*fb/2, fs);
+        %I_filtered = filter(b, 1, I_);%filtered I
+        %Q_filtered = filter(b, 1, Q_);%filtered Q
         
         %----------调制----------%
         T = length(I)/fb;
@@ -100,7 +100,7 @@ switch mode
         Ich = cos(2*pi*fc*t);
         Qch = sin(2*pi*fc*t);
         %plot(nn,I'.*Ich)
-        data_transmit = I_filtered.*Ich-Q_filtered.*Qch;
+        data_transmit = I_.*Ich-Q_.*Qch;
         figure
         plot(1:1:length(data_transmit),data_transmit);
         title('data_transmit');
