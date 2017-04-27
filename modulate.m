@@ -26,9 +26,21 @@ switch mode
         end
         dataInMatrix = reshape(data,length(data)/k,k);
         dataSymbolsIn = bi2de(dataInMatrix);
-        temp = qammod(dataSymbolsIn,M);
+        %dataSymbolsIn;
+        figure
+        stem(1:1:length(dataSymbolsIn),dataSymbolsIn)
+        title('调制')
+        temp = qammod(dataSymbolsIn,M,'bin');
         I = real(temp);
+        %I'
+%         figure
+%         stem(1:1:length(I),I);
+%         title('I');
         Q = imag(temp);
+        %Q'
+%         figure
+%         stem(1:1:length(Q),Q);
+%         title('Q');
         gain = fs/fb;
         I_ = zeros(1,length(I)*gain);
         Q_ = zeros(1,length(Q)*gain);  
@@ -36,26 +48,30 @@ switch mode
             I_((i-1)*gain+1:i*gain) = I(i,1);
             Q_((i-1)*gain+1:i*gain) = Q(i,1);
         end
-        b = firrcos(16,fb/2, 2*0.5*fb/2, fs);
-        I_filtered = filter(b, 1, I_);%filtered I
-        figure
-        plot(1:1:length(I_filtered),I_filtered);
-        title('I filtered');
-        Q_filtered = filter(b, 1, Q_);%filtered Q
+        %b = firrcos(16,fb/2, 2*0.5*fb/2, fs);
+        %I_filtered = filter(b, 1, I_);%filtered I
+        %figure
+        %plot(1:1:length(I_filtered),I_filtered);
+        %title('I filtered');
+       % Q_filtered = filter(b, 1, Q_);%filtered Q
         %--------------上变频---------------%
         dt = 1/fs;%单位时间
         T = length(I)/fb;%时间长度
         t = 0:dt:T-dt;%时间序列
         %nn = 1:length(I_filtered);
         Ich = cos(2*pi*fc*t);
-        figure
-        plot(1:1:length(Ich),Ich);
-        title('Ich');
+        %figure
+        %plot(1:1:length(I_filtered),I_filtered);
+        %title('Ich');
         Qch = sin(2*pi*fc*t);
-        data_transmit = I_filtered.*Ich-Q_filtered.*Qch;
-        figure
-        plot(1:1:length(data_transmit),data_transmit);
-        title('data_transmit');
+        %figure
+        %plot(1:1:length(Q_filtered),Q_filtered);
+        %title('Qch');
+        %data_transmit = I_filtered.*Ich-Q_filtered.*Qch;
+        data_transmit = I_.*Ich-Q_.*Qch;
+        %figure
+        %plot(1:1:length(data_transmit),data_transmit);
+        %title('data_transmit');
         
         
     case 'QPSK'
