@@ -67,8 +67,8 @@ switch mode
         I_ = zeros(1,length(I)*gain);
         Q_ = zeros(1,length(Q)*gain);  
         for i=1:1:length(I)
-            I_((i-1)*gain+1:i*gain) = I(1,i);
-            Q_((i-1)*gain+1:i*gain) = Q(1,i);
+            I_((i-1)*gain+1:i*gain) = I(i,1);
+            Q_((i-1)*gain+1:i*gain) = Q(i,1);
         end
         %plot(1:1:length(I_),I_);
         %----------基带脉冲成形----------%
