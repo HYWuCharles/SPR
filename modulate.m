@@ -1,7 +1,7 @@
-function data_transmit = modulate(data, mode)
+function [data_transmit, zero] = modulate(data, mode)
 %QPSK调制不好
 fb = 1;%基带信号频率 1MHz
-fs = 100;%基带采样频率 100MHz
+fs = 32;%基带采样频率 100MHz
 fc = 4;%载波频率 4MHz
 
 switch mode
@@ -19,14 +19,17 @@ switch mode
         numSamplePerSymbol = 1;%Oversampling factor
         if mod((n+1),4) == 0
             data=[data;0];
+            zero = 1;
         elseif mod((n+2),4) == 0
             data = [data;0;0];
+            zero = 2;
         elseif mod((n+3),4) == 0
             data = [data;0;0;0];
+            zero = 3;
         end
         dataInMatrix = reshape(data,length(data)/k,k);
-        dataSymbolsIn = bi2de(dataInMatrix);
-        %dataSymbolsIn;
+        dataSymbolsIn = bi2de(uint8(dataInMatrix));
+        %dataSymbolsIn
         figure
         stem(1:1:length(dataSymbolsIn),dataSymbolsIn)
         title('调制')

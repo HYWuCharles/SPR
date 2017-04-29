@@ -1,6 +1,6 @@
 function recieved = demod(data,mode)
 fc = 4;%½âµ÷ÔØ²¨ÆµÂÊ4MHz
-fs = 100;
+fs = 32;
 fb = 1;
 switch mode
     case 'QAM'

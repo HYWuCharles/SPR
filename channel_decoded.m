@@ -1,5 +1,7 @@
 function decoded = channel_decoded(data, mode)
 
+%信道可解码，但并未实现纠错
+
 switch mode
     case 'CONV'
         data = de2bi(data);
