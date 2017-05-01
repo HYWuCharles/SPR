@@ -1,7 +1,12 @@
-function coded_image = encode(path)
+function [coded_image, height, width] = encode(path)
+figure
+imshow(path)
+title('Encoded Image');
 
 image = imread(path);
 [a, b, c] = size(image);
+height = a;
+width = b;
 N = a*b;
 key(1) = 0.3;
 

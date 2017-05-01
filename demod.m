@@ -33,9 +33,9 @@ switch mode
         recovered = Ich_sampled+Qch_sampled*1i;
         
         recieved = qamdemod(recovered,16,'bin');
-        figure
-        stem(1:1:length(recieved),recieved)
-        title('解调')
+        %figure
+        %stem(1:1:length(recieved),recieved)
+        %title('解调')
 end
 
 end

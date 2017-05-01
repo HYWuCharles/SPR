@@ -4,13 +4,14 @@ switch mode
     case 'CONV'
         %Set the trellis structure and traceback length for a rate 1/2
         %constraint length 7, convolutional code.
-        %trellis = poly2trellis(7,[171,133]);
+        trellis = poly2trellis(7,[171,133]);
         %tbl = 32;
         %rate = 1/2;
         
-        %dataEnc = convenc(data,trellis);
+        dataEnc = convenc(data,trellis);
         
-       dataEnc = convcode(data);
+        %dataEnc = convcode(data);
+        %dataEnc = transpose(dataEnc);
         
     case 'CRC'
         g = [1 0 0 1 1];

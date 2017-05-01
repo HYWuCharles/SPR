@@ -1,10 +1,12 @@
-function decode_data = decode(data)
+function decode_data = decode(data,width,height)
 
 %-------------²âÊÔ-------------%
 %image = imread(data);
 %[a,b] = size(image);
 
 %-------------ÕıÊ½-------------%
+data = uint8(data);
+data = reshape(data,height,width);
 [a,b] = size(data);
 N = a*b;
 
@@ -24,5 +26,7 @@ for i=1:a
         n = n+1;
     end
 end
-
+figure
+imshow(e);
+title('Decoded Image');
 decode_data = e;

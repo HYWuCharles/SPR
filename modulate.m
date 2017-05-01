@@ -1,4 +1,4 @@
-function [data_transmit, zero] = modulate(data, mode)
+function [data_transmit, zero, test] = modulate(data, mode)
 %QPSK调制不好
 fb = 1;%基带信号频率 1MHz
 fs = 32;%基带采样频率 100MHz
@@ -26,13 +26,16 @@ switch mode
         elseif mod((n+3),4) == 0
             data = [data;0;0;0];
             zero = 3;
+        else
+            zero = 0;
         end
         dataInMatrix = reshape(data,length(data)/k,k);
         dataSymbolsIn = bi2de(uint8(dataInMatrix));
+        test = dataSymbolsIn;
         %dataSymbolsIn
-        figure
-        stem(1:1:length(dataSymbolsIn),dataSymbolsIn)
-        title('调制')
+        %figure
+        %stem(1:1:length(dataSymbolsIn),dataSymbolsIn)
+        %title('调制')
         temp = qammod(dataSymbolsIn,M,'bin');
         I = real(temp);
         %I'
@@ -51,6 +54,9 @@ switch mode
             I_((i-1)*gain+1:i*gain) = I(i,1);
             Q_((i-1)*gain+1:i*gain) = Q(i,1);
         end
+        h = hamming(length(I_));
+        %I_ = I_.*h;
+        %Q_ = Q_.*h;
         %b = firrcos(16,fb/2, 2*0.5*fb/2, fs);
         %I_filtered = filter(b, 1, I_);%filtered I
         %figure

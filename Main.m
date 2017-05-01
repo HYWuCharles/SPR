@@ -3,8 +3,8 @@ clear;
 close all;
 %---------Main文件---------%
 %将图片进行加密
-%data = encode('/Users/ComingWind/Desktop/aqi.png');
-data = encode_test([1,0,1,0;0,1,1,1]);
+[data, height, width] = encode('/Users/ComingWind/Desktop/test1.png');
+%data = encode_test([1,0,1,0;0,1,1,1]);
 
 %得到霍夫曼字典
 dict = generate_huffman(data);
@@ -13,10 +13,10 @@ dict = generate_huffman(data);
 source_coded = source_coding_decoding(data,dict,'ENCODE');
 
 %将编码后的数据进行信道编码（CRC）
-channel_coded = channel_encode(source_coded,'CRC');
+channel_coded = channel_encode(source_coded,'CONV');
 
 %将待发送数据进行16QAM调制
-[data_transmit, zero_amount] = modulate(channel_coded,'QAM');
+[data_transmit, zero_amount, test] = modulate(channel_coded,'QAM');
 
 %数据通过信道
 received = channel(data_transmit);
@@ -28,7 +28,10 @@ demoded = demod(received,'QAM');
 fixed = recover(demoded,zero_amount);
 
 %解信道码
-channel_decode = channel_decoded(fixed,'CRC');
+channel_decode = channel_decoded(fixed,'CONV');
 
 %信源解码
 source_decoded = source_coding_decoding(channel_decode,dict,'DECODE');
+
+%解密
+image = decode(source_decoded,width,height);
