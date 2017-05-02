@@ -1,4 +1,4 @@
-function [data_transmit, zero, test] = modulate(data, mode)
+function [data_transmit, zero] = modulate(data, mode)
 %QPSK调制不好
 fb = 1;%基带信号频率 1MHz
 fs = 32;%基带采样频率 100MHz
@@ -31,7 +31,7 @@ switch mode
         end
         dataInMatrix = reshape(data,length(data)/k,k);
         dataSymbolsIn = bi2de(uint8(dataInMatrix));
-        test = dataSymbolsIn;
+        %test = dataSymbolsIn;
         %dataSymbolsIn
         %figure
         %stem(1:1:length(dataSymbolsIn),dataSymbolsIn)
@@ -86,6 +86,18 @@ switch mode
     case 'QPSK'
         %----------串并转换----------%
         n = length(data);
+        if mod((n+1),4) == 0
+            data=[data;0];
+            zero = 1;
+        elseif mod((n+2),4) == 0
+            data = [data;0;0];
+            zero = 2;
+        elseif mod((n+3),4) == 0
+            data = [data;0;0;0];
+            zero = 3;
+        else
+            zero = 0;
+        end
         I = data(1:2:n-1);
         Q = data(2:2:n);
         gain = fs/fb;
@@ -110,7 +122,7 @@ switch mode
         Qch = sin(2*pi*fc*t);
         %plot(nn,I'.*Ich)
         data_transmit = I_.*Ich-Q_.*Qch;
-        figure
-        plot(1:1:length(data_transmit),data_transmit);
-        title('data_transmit');
+%         figure
+%         plot(1:1:length(data_transmit),data_transmit);
+%         title('data_transmit');
 end 

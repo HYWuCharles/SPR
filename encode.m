@@ -24,6 +24,10 @@ for i=1:a
         n=n+1;
     end
 end
+
+figure
+imshow(e)
+title('encoded image')
 %imwrite(e,'test.bmp','bmp');
 coded_image = e;
 %[a b c]=size(x);

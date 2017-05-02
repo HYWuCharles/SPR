@@ -36,6 +36,33 @@ switch mode
         %figure
         %stem(1:1:length(recieved),recieved)
         %title('解调')
+        
+    case 'QPSK'
+        dt = 1/fs;
+        T = length(data)/(fb*fs);
+        t = 0:dt:T-dt;
+        %下变频
+        Ich = data.*cos(2*pi*fc*t);
+        Qch = data.*cos(2*pi*fc*t+pi/2);
+        %巴特沃斯滤波器
+        [B,A] = butter(2,2*fb/fs);%截止频率2*fb/fs
+        Ich = 2*filter(B,A,Ich);
+        Qch = 2*filter(B,A,Qch);
+        %抽样判决
+        Ich_sampled = round(Ich(fs/(2*fb):fs/fb:length(Ich)));
+        %Ich_sampled
+%         figure
+%         stem(1:1:length(Ich_sampled),Ich_sampled);
+%         title('Ich_sampled');
+        Qch_sampled = round(Qch(fs/(2*fb):fs/fb:length(Qch)));
+        
+        temp = zeros(1,2*length(Ich_sampled));
+        for i=1:1:length(Ich_sampled)
+            temp(1,2*i-1) = Ich_sampled(1,i);
+            temp(1,2*i) = Qch_sampled(1,i);
+        end
+        recieved = temp;
+        
 end
 
 end
