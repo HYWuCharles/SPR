@@ -8,7 +8,6 @@ close all;
 [data1, height1, width1] = encode(R);
 [data2, height2, width2] = encode(G);
 [data3, height3, width3] = encode(B);
-image_show(data1,'encoded R')
 %data = encode_test([1,0,1,0;0,1,1,1]);
 
 %得到霍夫曼字典
@@ -58,7 +57,10 @@ source_decoded3 = source_coding_decoding(channel_decode3,dict3,'DECODE');
 R_decoded = decode(source_decoded1,width1,height1);
 G_decoded = decode(source_decoded2,width2,height2);
 B_decoded = decode(source_decoded3,width3,height3);
-image_show(R_decoded, 'decoded R')
 
 %组合image
-reshape_image(R_decoded,G_decoded,B_decoded)
+image(:,:,1) = R_decoded;
+image(:,:,2) = G_decoded;
+image(:,:,3) = B_decoded;
+
+imshow(image);

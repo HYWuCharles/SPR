@@ -1,10 +1,6 @@
-function [coded_image, height, width] = encode(path)
-figure
-imshow(path)
-title('Encoded Image');
+function [coded_image, height, width] = encode(data)
 
-image = imread(path);
-[a, b, c] = size(image);
+[a, b] = size(data);
 height = a;
 width = b;
 N = a*b;
@@ -20,14 +16,14 @@ key=uint8(key);
 n=1;
 for i=1:a
     for j=1:b
-        e(i,j)=bitxor(key(n),image(i,j));
+        e(i,j)=bitxor(key(n),data(i,j));
         n=n+1;
     end
 end
 
-figure
-imshow(e)
-title('encoded image')
+%figure
+%imshow(e)
+%title('encoded image')
 %imwrite(e,'test.bmp','bmp');
 coded_image = e;
 %[a b c]=size(x);

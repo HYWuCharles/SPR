@@ -11,7 +11,7 @@ switch mode
         nsamp = 8;%每符号的样本数
         Fs = fs;
         data_transmit = fskmod(data,M,freqseq,nsamp,Fs);
-        
+
     case 'QAM'
         M = 16;%16 QAM
         k = log2(M);%Number of bits per symbol
@@ -33,9 +33,9 @@ switch mode
         dataSymbolsIn = bi2de(uint8(dataInMatrix));
         %test = dataSymbolsIn;
         %dataSymbolsIn
-        %figure
-        %stem(1:1:length(dataSymbolsIn),dataSymbolsIn)
-        %title('调制')
+%         figure
+%         stem(1:1:length(dataSymbolsIn),dataSymbolsIn)
+%         title('调制数据')
         temp = qammod(dataSymbolsIn,M,'bin');
         I = real(temp);
         %I'
@@ -54,7 +54,7 @@ switch mode
             I_((i-1)*gain+1:i*gain) = I(i,1);
             Q_((i-1)*gain+1:i*gain) = Q(i,1);
         end
-        h = hamming(length(I_));
+        %h = hamming(length(I_));
         %I_ = I_.*h;
         %Q_ = Q_.*h;
         %b = firrcos(16,fb/2, 2*0.5*fb/2, fs);
@@ -69,18 +69,21 @@ switch mode
         t = 0:dt:T-dt;%时间序列
         %nn = 1:length(I_filtered);
         Ich = cos(2*pi*fc*t);
-        %figure
-        %plot(1:1:length(I_filtered),I_filtered);
-        %title('Ich');
+%         figure
+%         plot(1:1:length(I_filtered),I_filtered);
+%         title('Ich');
         Qch = sin(2*pi*fc*t);
         %figure
         %plot(1:1:length(Q_filtered),Q_filtered);
         %title('Qch');
         %data_transmit = I_filtered.*Ich-Q_filtered.*Qch;
         data_transmit = I_.*Ich-Q_.*Qch;
-        %figure
-        %plot(1:1:length(data_transmit),data_transmit);
-        %title('data_transmit');
+%         figure
+%         plot(1:1:length(data_transmit),data_transmit);
+%         title('data_transmit');
+%         figure
+%         plot(1:1:length(data_transmit),abs(fft(data_transmit)));
+%         title('f domain of data_transmit');
         
         
     case 'QPSK'

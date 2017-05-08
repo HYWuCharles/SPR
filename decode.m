@@ -26,7 +26,7 @@ for i=1:a
         n = n+1;
     end
 end
-figure
-imshow(e);
-title('Decoded Image');
+% figure
+% imshow(e);
+% title('Decoded Image');
 decode_data = e;
