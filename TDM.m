@@ -1,5 +1,5 @@
 function data = TDM(n, sig1, sig2, sig3)
-
+%单比特时分复用
 if nargin == 3
     sig1_l = length(sig1);
     sig2_l = length(sig2);
@@ -18,7 +18,7 @@ end
 
 data = zeros(max_length,1)*n;
 
-%组织TDM的信息序列，若超出则以0补齐
+%组织TDM的信息序列，若超出则以NaN补齐
 switch type
     case 'TWO'
         for i = 1:1:max_length

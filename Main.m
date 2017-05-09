@@ -22,12 +22,18 @@ source_coded2 = source_coding_decoding(data2,dict2,'ENCODE');
 source_coded3 = source_coding_decoding(data3,dict3,'ENCODE');
 
 %将编码后的数据进行信道编码（CONV）
-channel_coded1 = channel_encode(source_coded1,'CONV');
-channel_coded2 = channel_encode(source_coded2,'CONV');
-channel_coded3 = channel_encode(source_coded3,'CONV');
+[channel_coded1,l1] = channel_encode(source_coded1,'CONV');
+[channel_coded2,l2] = channel_encode(source_coded2,'CONV');
+[channel_coded3,l3] = channel_encode(source_coded3,'CONV');
 
 %将多路信号进行TDM
-data_TDM = TDM(3,channel_coded1,channel_coded2, channel_coded3);
+%单bit的TDM如下
+%data_TDM = TDM(3,channel_coded1,channel_coded2, channel_coded3);
+%成帧TDM如下
+frame_seq1 = frame_shape(channel_coded1,5);
+frame_seq2 = frame_shape(channel_coded2,4);
+frame_seq3 = frame_shape(channel_coded3,3);
+[data_TDM, frame1_l, frame2_l, frame3_l, num1, num2, num3] = frame_TDM(frame_seq1, frame_seq2, frame_seq3);
 
 %将待发送数据进行16QAM调制
 [data_transmit, zero_amount] = modulate(data_TDM,'QAM');
@@ -42,7 +48,10 @@ demoded = demod(received,'QAM');
 fixed = recover(demoded,zero_amount);
 
 %解TDM
-[fixed1, fixed2, fixed3] = deTDM(3,fixed);
+%单比特TDM如下
+%[fixed1, fixed2, fixed3] = deTDM(3,fixed);
+%成帧TDM如下
+[fixed1, fixed2, fixed3] = deTDM_frame(fixed,frame1_l, frame2_l, frame3_l,l1, l2, l3, num1, num2, num3);
 
 %解信道码
 channel_decode1 = channel_decoded(fixed1,'CONV');

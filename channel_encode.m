@@ -1,4 +1,4 @@
-function dataEnc = channel_encode(data,mode)
+function [dataEnc, l] = channel_encode(data,mode)
 
 switch mode
     case 'CONV'
@@ -9,7 +9,7 @@ switch mode
         %rate = 1/2;
         
         dataEnc = convenc(data,trellis);
-        
+        l = length(dataEnc);
         %dataEnc = convcode(data);
         %dataEnc = transpose(dataEnc);
         
