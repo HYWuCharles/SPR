@@ -4,7 +4,7 @@ close all;
 %---------Main文件---------%
 %将图片进行加密
 %请将该路径换做自己的图片，建议100*100以下分辨率，否则运行速度很慢
-[R, G, B] = imageread('/Users/cailingyi/Desktop/test.jpg');
+[R, G, B] = imageread('/Users/ComingWind/Desktop/aqi.png');
 [data1, height1, width1] = encode(R);
 [data2, height2, width2] = encode(G);
 [data3, height3, width3] = encode(B);
