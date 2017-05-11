@@ -4,7 +4,7 @@ close all;
 %---------Main文件---------%
 %将图片进行加密
 %请将该路径换做自己的图片，建议100*100以下分辨率，否则运行速度很慢
-[R, G, B] = imageread('/Users/ComingWind/Desktop/test1.png');
+[R, G, B] = imageread('/Users/cailingyi/Desktop/test.jpg');
 [data1, height1, width1] = encode(R);
 [data2, height2, width2] = encode(G);
 [data3, height3, width3] = encode(B);
@@ -39,7 +39,7 @@ frame_seq3 = frame_shape(channel_coded3,3);
 [data_transmit, zero_amount] = modulate(data_TDM,'QAM');
 
 %数据通过信道
-received = channel(data_transmit);
+received = channel(data_transmit,15);
 
 %解调
 demoded = demod(received,'QAM');
@@ -71,3 +71,6 @@ image_show(R_decoded, 'decoded R')
 
 %组合image
 reshape_image(R_decoded,G_decoded,B_decoded)
+
+%计算误码率
+wrong(data_TDM,data_transmit,zero_amount)
